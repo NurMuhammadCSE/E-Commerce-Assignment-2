@@ -7,8 +7,24 @@ const createMovie = async (payload: TProducts) => {
   return result;
 };
 
-const getAllProducts = async () => {
-  const result = await Product.find();
+const getAllProducts = async (searchTerm?: string) => {
+  // Search Term Implementation
+  //   const { searchTerm } = query;
+  let filter = {};
+  if (searchTerm) {
+    // const regex = new RegExp(searchTerm as string, "i");
+    filter = {
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { description: { $regex: searchTerm, $options: "i" } },
+        {
+          price: { $regex: searchTerm, $options: "i" },
+        },
+      ],
+    };
+  }
+
+  const result = await Product.find(filter);
   return result;
 };
 

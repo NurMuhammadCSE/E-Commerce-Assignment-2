@@ -12,9 +12,13 @@ const createProduct = async (req: Request, res: Response) => {
   });
 };
 
+
 const getAllProducts = async (req: Request, res: Response) => {
+  const searchTerm = req.query.searchTerm as string | undefined;
   try {
-    const result = await ProductServices.getAllProducts();
+    // console.log(searchTerm);
+    const result = await ProductServices.getAllProducts(searchTerm);
+    // console.log(result);
     res.status(200).json({
       success: true,
       message: "Products fetched successfully!",
@@ -23,7 +27,7 @@ const getAllProducts = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Could not fetched Products",
+      message: `Could not fetched ${searchTerm} Products`,
       error,
     });
   }
@@ -73,11 +77,11 @@ const updateProductById = async (req: Request, res: Response) => {
   }
 };
 
-const deleteProductById = async(req:Request, res:Response) => {
+const deleteProductById = async (req: Request, res: Response) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const result = await ProductServices.deleteProductById(id);
-    if(result){
+    if (result) {
       res.status(200).json({
         success: true,
         message: "Deleted Product Successfully",
@@ -90,12 +94,12 @@ const deleteProductById = async(req:Request, res:Response) => {
       error,
     });
   }
-}
+};
 
 export const ProductController = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProductById,
-  deleteProductById
+  deleteProductById,
 };
