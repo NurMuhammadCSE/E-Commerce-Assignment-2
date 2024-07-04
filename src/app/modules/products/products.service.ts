@@ -25,9 +25,15 @@ const updateProductById = async (
   return result;
 };
 
+const deleteProductById = async (id: string) => {
+  const result = await Product.deleteOne({ _id: id });
+  return result;
+};
+
 export const ProductServices = {
   createMovie,
   getAllProducts,
   getProductById,
   updateProductById,
+  deleteProductById,
 };
